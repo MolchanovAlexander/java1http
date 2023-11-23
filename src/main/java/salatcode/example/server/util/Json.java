@@ -1,4 +1,4 @@
-package salat.server.util;
+package salatcode.example.server.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;

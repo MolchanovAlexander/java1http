@@ -1,4 +1,4 @@
-package org.example;
+package salatcode.example;
 
 public class Main {
     public static void main(String[] args) {

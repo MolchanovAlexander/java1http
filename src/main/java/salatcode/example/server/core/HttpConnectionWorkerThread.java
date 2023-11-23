@@ -1,4 +1,4 @@
-package salat.server.core;
+package salatcode.example.server.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class HttpConnectionWorkerThread extends  Thread {
              inputStream = socket.getInputStream();
              outputStream = socket.getOutputStream();
 
-            // todo we would read
+
             String html = "<html><head><title>JAVA server</title></head><body ><div style=\"display:flex;align-items:center;height:300px; background-color:lightgrey;justify-content:center;\"><h1 style=\"color:red\">JAVA GUF RIP</h1></div></body></html>";
             final String CRLF = "\n\r";
             String response =
@@ -35,7 +35,7 @@ public class HttpConnectionWorkerThread extends  Thread {
             outputStream.write(response.getBytes());
             LOGGER.info("Connect processing finished.");
         }catch (IOException e){
-            throw new RuntimeException(e);
+            LOGGER.error("Problem with communication.", e);
         }finally {
             if(inputStream != null){
                 try {

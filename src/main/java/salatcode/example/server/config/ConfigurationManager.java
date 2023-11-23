@@ -1,7 +1,7 @@
-package salat.server.config;
+package salatcode.example.server.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import salat.server.util.Json;
+import salatcode.example.server.util.Json;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.FileNotFoundException;

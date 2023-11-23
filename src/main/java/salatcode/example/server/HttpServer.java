@@ -1,10 +1,10 @@
-package salat.server;
+package salatcode.example.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import salat.server.config.Configuration;
-import salat.server.config.ConfigurationManager;
-import salat.server.core.ServerListnerThread;
+import salatcode.example.server.config.Configuration;
+import salatcode.example.server.config.ConfigurationManager;
+import salatcode.example.server.core.ServerListnerThread;
 
 import java.io.IOException;
 
