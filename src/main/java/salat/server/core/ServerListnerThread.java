@@ -25,30 +25,9 @@ public class ServerListnerThread extends Thread{
         try {
             while (serverSocket.isBound() && !serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
-                LOGGER.info(" * Connection accepted" + count++ +socket.getInetAddress());
-                InputStream inputStream = socket.getInputStream();
-                OutputStream outputStream = socket.getOutputStream();
-
-                // todo we would read
-                String html = "<html><head><title>JAVA server</title></head><body ><div style=\"display:flex;align-items:center;height:300px; background-color:lightgrey;justify-content:center;\"><h1 style=\"color:red\">JAVA GUF RIP</h1></div></body></html>";
-                final String CRLF = "\n\r";
-                String response =
-                        "HTTP/1.1 200 OK" + CRLF +
-                                "Content-Length: " + html.getBytes().length + CRLF +
-                                CRLF +
-                                html +
-                                CRLF + CRLF;
-                // todo we would writing
-                outputStream.write(response.getBytes());
-
-                inputStream.close();
-                outputStream.close();
-                socket.close();
-                try {
-                    sleep(5000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                LOGGER.info(" * Connection accepted - " + count++ +" " + socket.getInetAddress());
+                HttpConnectionWorkerThread workerThread = new HttpConnectionWorkerThread(socket);
+                workerThread.start();
             }
            // serverSocket.close(); // TODO Handle close.
         } catch (IOException e) {
