@@ -16,9 +16,11 @@ public class HttpConnectionWorkerThread extends  Thread {
     }
     @Override
     public void run(){
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
         try {
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
+             inputStream = socket.getInputStream();
+             outputStream = socket.getOutputStream();
 
             // todo we would read
             String html = "<html><head><title>JAVA server</title></head><body ><div style=\"display:flex;align-items:center;height:300px; background-color:lightgrey;justify-content:center;\"><h1 style=\"color:red\">JAVA GUF RIP</h1></div></body></html>";
@@ -31,18 +33,25 @@ public class HttpConnectionWorkerThread extends  Thread {
                             CRLF + CRLF;
             // todo we would writing
             outputStream.write(response.getBytes());
-
-            inputStream.close();
-            outputStream.close();
-            socket.close();
-            try {
-                sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
             LOGGER.info("Connect processing finished.");
         }catch (IOException e){
             throw new RuntimeException(e);
+        }finally {
+            if(inputStream != null){
+                try {
+                    inputStream.close();
+                } catch (IOException e) {}
+            }
+            if(outputStream != null){
+                try {
+                    outputStream.close();
+                } catch (IOException e) {}
+            }
+            if(socket != null){
+                try {
+                    socket.close();
+                } catch (IOException e) {}
+            }
         }
     }
 }
