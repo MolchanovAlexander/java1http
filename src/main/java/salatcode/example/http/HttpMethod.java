@@ -1,5 +1,5 @@
 package salatcode.example.http;
 
-public class HttpMethod {
+public enum HttpMethod {
     GET, HEAD;
 }
