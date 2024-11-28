@@ -1,27 +1,28 @@
 package salatcode.example.server.core;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class HttpConnectionWorkerThread extends  Thread {
+public class HttpConnectionWorkerThread extends Thread {
     private final static Logger LOGGER = LoggerFactory.getLogger(ServerListnerThread.class);
 
-    private  Socket socket;
-    public  HttpConnectionWorkerThread(Socket socket) {
+    private Socket socket;
+
+    public HttpConnectionWorkerThread(Socket socket) {
         this.socket = socket;
     }
+
     @Override
-    public void run(){
+    public void run() {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-             inputStream = socket.getInputStream();
-             outputStream = socket.getOutputStream();
-
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
 
             String html = "<html><head><title>JAVA server</title></head><body ><div style=\"display:flex;align-items:center;height:300px; background-color:lightgrey;justify-content:center;\"><h1 style=\"color:red\">JAVA GUF RIP</h1></div></body></html>";
             final String CRLF = "\n\r";
@@ -34,23 +35,26 @@ public class HttpConnectionWorkerThread extends  Thread {
             // todo we would writing
             outputStream.write(response.getBytes());
             LOGGER.info("Connect processing finished.");
-        }catch (IOException e){
+        } catch (IOException e) {
             LOGGER.error("Problem with communication.", e);
-        }finally {
-            if(inputStream != null){
+        } finally {
+            if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
-            if(outputStream != null){
+            if (outputStream != null) {
                 try {
                     outputStream.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
-            if(socket != null){
+            if (socket != null) {
                 try {
                     socket.close();
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
         }
     }
