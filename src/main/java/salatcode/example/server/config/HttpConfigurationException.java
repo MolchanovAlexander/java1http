@@ -1,6 +1,6 @@
 package salatcode.example.server.config;
 
-public class HttpConfigurationException extends RuntimeException{
+public class HttpConfigurationException extends RuntimeException {
     public HttpConfigurationException() {
     }
 
