@@ -1,7 +1,6 @@
 package salatcode.example.server.config;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStream;
 import java.io.IOException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,7 +11,6 @@ public class ConfigurationManager {
     private static Configuration myCurrentConfiguration;
 
     private ConfigurationManager() {
-
     }
 
     public static ConfigurationManager getInstance() {
@@ -22,45 +20,34 @@ public class ConfigurationManager {
     }
 
     /*
-     * Used to load a config file by te path provider
-     * */
-    public void loadConfigurationFile(String filePath) {
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader(filePath);
-        } catch (FileNotFoundException e) {
-            throw new HttpConfigurationException(e);
-        }
-        StringBuffer sb = new StringBuffer();
-        int i;
-        try {
-            while ((i = fileReader.read()) != -1) {
+     * Used to load a config file by the file name (inside resources)
+     */
+    public void loadConfigurationFile(String fileName) {
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName)) {
+            if (inputStream == null) {
+                throw new HttpConfigurationException("Configuration file not found: " + fileName);
+            }
+
+            // Read the file content
+            StringBuilder sb = new StringBuilder();
+            int i;
+            while ((i = inputStream.read()) != -1) {
                 sb.append((char) i);
             }
 
-        } catch (IOException e) {
-            throw new HttpConfigurationException(e);
-        }
-
-        JsonNode conf = null;
-        try {
-            conf = Json.parse(sb.toString());
-        } catch (IOException e) {
-            throw new HttpConfigurationException("Error parsing conf file", e);
-        }
-        try {
+            // Parse JSON
+            JsonNode conf = Json.parse(sb.toString());
             myCurrentConfiguration = Json.fromJson(conf, Configuration.class);
-        } catch (JsonProcessingException e) {
-            throw new HttpConfigurationException("Error parsing conf file internal", e);
+        } catch (IOException e) {
+            throw new HttpConfigurationException("Error loading configuration file", e);
         }
     }
 
-    // returns the current config
+    // Returns the current configuration
     public Configuration getCurrentConfiguration() {
         if (myCurrentConfiguration == null) {
-            throw new HttpConfigurationException("No current cohfig is set");
+            throw new HttpConfigurationException("No current configuration is set");
         }
         return myCurrentConfiguration;
     }
-
 }

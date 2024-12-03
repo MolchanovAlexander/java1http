@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpConnectionWorkerThread extends Thread {
-    private final static Logger LOGGER = LoggerFactory.getLogger(ServerListnerThread.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(HttpConnectionWorkerThread.class);
 
     private Socket socket;
 
@@ -24,7 +24,21 @@ public class HttpConnectionWorkerThread extends Thread {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
 
-            String html = "<html><head><title>JAVA server</title></head><body ><div style=\"display:flex;align-items:center;height:300px; background-color:lightgrey;justify-content:center;\"><h1 style=\"color:red\">JAVA GUF RIP</h1></div></body></html>";
+            String html = """
+            <html>
+                <head>
+                    <title>JAVA server</title>
+                </head>
+                <body>
+                    <div style="display:flex;
+                        align-items:center;
+                        height:300px;
+                        background-color:lightgrey;
+                        justify-content:center;">
+                        <h1 style="color:red">JAVA GUF RIP</h1>
+                    </div>
+                </body>
+            </html>""";
             final String CRLF = "\n\r";
             String response =
                     "HTTP/1.1 200 OK" + CRLF +
